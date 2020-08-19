@@ -26,8 +26,8 @@ public class Main {
         n = Integer.parseInt(value);
         unsorted = createArray(n);
 
-        selectionSort(unsorted);
-
+        System.out.print("processing selection sort... ");
+        System.out.println("COMPLETED: "+selectionSort(unsorted)+" nanoseconds");
     }
 
 

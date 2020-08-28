@@ -1,9 +1,19 @@
+/*Program made by: I GEDE PRADNYA SADHU PUTRA
+
+This program generates a random array with the user-entered value as its length.
+Then, it will sort this array using various different sorting algorithms and print out the times of each algorithm.
+
+The goal of this algorithm is to help users understand which algorithms are more efficient based on size of the array.
+ */
+
 import java.util.Scanner;
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args){
+        long startTime;
+        long endTime;
         boolean cont = false;
         int[] unsorted;
         String value;
@@ -27,12 +37,30 @@ public class Main {
         unsorted = createArray(n);
 
         System.out.print("processing selection sort... ");
-        System.out.println("COMPLETED: "+selectionSort(unsorted)+" nanoseconds");
+        startTime = System.nanoTime();
+        selectionSort(unsorted);
+        endTime = System.nanoTime();
+        System.out.println("\t\t\tCOMPLETED: "+(endTime-startTime)/1000+" microsecond(s)");
+
+        unsorted = createArray(n);
+
+        System.out.print("processing bubble sort... ");
+        startTime = System.nanoTime();
+        bubbleSort(unsorted);
+        endTime = System.nanoTime();
+        System.out.println("\t\t\t\tCOMPLETED: "+(endTime-startTime)/1000+" microsecond(s)");
+
+        unsorted = createArray(n);
+
+        System.out.print("processing merge sort (RECURSIVE)... ");
+        startTime = System.nanoTime();
+        mergeSort(unsorted,n);
+        endTime = System.nanoTime();
+        System.out.println("\tCOMPLETED: "+(endTime-startTime)/1000+" microsecond(s)");
     }
 
 
-    public static long selectionSort(int[] arr){
-        long startTime = System.nanoTime();
+    static void selectionSort(int[] arr){
         int lowest;
         int lowestIndex=0;
         int temp;
@@ -49,15 +77,68 @@ public class Main {
             arr[i] = lowest;
             arr[lowestIndex] = temp;
         }
-        long endTime = System.nanoTime();
-        long runtime = endTime - startTime;
-
-        return runtime;
     }
 
     //The following functions are helper functions
 
-    public static int[] createArray(int n){
+    static void bubbleSort(int[] arr){
+        int temp;
+
+        for(int i=0; i<arr.length-1;i++) {
+            for(int j=0; j<arr.length-i-1;j++){
+                if (arr[j] > arr[j + 1]) {
+                    temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    static void mergeSort(int[] arr, int length){
+        if(length<2){
+            return;
+        }
+
+        int mid=length/2;
+        int[] left = new int[mid];
+        int[] right = new int [length-mid];
+
+        for (int i=0; i<mid;i++){
+            left[i] = arr[i];
+        }
+        for (int i=0; i<length-mid;i++){
+            right[i] = arr[i+mid];
+        }
+
+        mergeSort(left, mid);
+        mergeSort(right, length-mid);
+
+        merge(left,right,arr,mid,length-mid);
+    }
+
+    static void merge(int[] left, int[] right, int[] arr, int leftLength, int rightLength){
+        int lIndex=0;
+        int rIndex=0;
+
+        int i=0;
+        while(lIndex<leftLength && rIndex<rightLength){
+            if(left[lIndex]<right[rIndex]){
+                arr[i++] = left[lIndex++];
+            }
+            else{
+                arr[i++] = right[rIndex++];
+            }
+        }
+        while(lIndex<leftLength){
+            arr[i++] = left[lIndex++];
+        }
+        while(rIndex<rightLength){
+            arr[i++] = right[rIndex++];
+        }
+    }
+
+    static int[] createArray(int n){
         int[] newArr = new int[n];
         Random rand = new Random();
 
@@ -67,12 +148,15 @@ public class Main {
         return newArr;
     }
 
-    public static boolean isInteger(String n){
+    //Validates whether the value is both an integer and greater than 1
+    static boolean isInteger(String n){
         try
         {
             // checking valid integer using parseInt() method
-            Integer.parseInt(n);
-            return true;
+            if(Integer.parseInt(n)>1){
+                return true;
+            }
+            return false;
         }
         catch (NumberFormatException e)
         {
@@ -81,7 +165,7 @@ public class Main {
     }
 
     //This function is used only in debugging
-    public static void printArray(int[] arr){
+    static void printArray(int[] arr){
         for(int i=0;i<arr.length;i++){
             System.out.print("["+arr[i]+"]");
         }

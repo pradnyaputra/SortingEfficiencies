@@ -1,9 +1,12 @@
 /*Program made by: I GEDE PRADNYA SADHU PUTRA
 
-This program generates a random array with the user-entered value as its length.
-Then, it will sort this array using various different sorting algorithms and print out the times of each algorithm.
+This program showcases a custom sorting algorithm I made (Packet Sort), comparing it directly against other popular sorting algorithms.
 
-The goal of this algorithm is to help users understand which algorithms are more efficient based on size of the array.
+This program generates a random array with the user-entered value as its length, and then
+sort this array with my custom algorithm and various other sorting algorithms.
+Then, it will print out the times of each algorithm.
+
+Packet sorting is best used with larger array sizes due to its recursive methods combines with insertion sort(>=500)
  */
 
 import java.lang.Math;
@@ -20,6 +23,7 @@ public class Main {
         int[] unsortedSaved;
         int length=0;
         int[] sortTimes = new int[5];
+
         do {
 
             System.out.println("Enter the length of the list you would like to sort: ");
@@ -28,6 +32,10 @@ public class Main {
             length = isValid();
             if(length>1){
                 pass=true;
+            }
+            else{
+                System.out.println("Invalid integer...");
+                System.out.println("");
             }
 
         }while(!pass);
@@ -39,60 +47,76 @@ public class Main {
         unsortedSaved = new int[unsorted.length];
         restoreRandomArray(unsortedSaved, unsorted);
 
-        //Begins processing and timing my custom sorting algorithm packet sort
-        System.out.print("processing packet sort... ");
+        //BEGINS PROCESSING PACKET SORT
+        System.out.print("PROCESSING PACKET SORT (custom algorithm)... ");
         startTime = System.nanoTime();
         int packetSortArray[] = packetSort(unsorted, new int[]{});
         endTime = System.nanoTime();
-        int packetSortTime = (int)((endTime-startTime)/1000);
+        int packetSortTime = (int)((endTime-startTime)/1000); //Gets the system time at both the start and end of sorting, and then calculates difference to get sorting time
         sortTimes[0] = packetSortTime;
-        System.out.println("\t\tCOMPLETED: "+packetSortTime+" microsecond(s)");
+        System.out.println("COMPLETED");
+        //FINISHES PROCESSING PACKET SORT
 
+        //Restores the now sorted array back to the original random array
         System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
-        System.out.print("processing selection sort... ");
+        //BEGINS PROCESSING SELECTION SORT
+        System.out.print("PROCESSING SELECTION SORT... ");
         startTime = System.nanoTime();
         selectionSort(unsorted);
         endTime = System.nanoTime();
-        int selectionSortTime = (int)((endTime-startTime)/1000);
+        int selectionSortTime = (int)((endTime-startTime)/1000); //Gets the system time at both the start and end of sorting, and then calculates difference to get sorting time
         sortTimes[1] = selectionSortTime;
-        System.out.println("\tCOMPLETED: "+selectionSortTime+" microsecond(s)");
+        System.out.println("COMPLETED");
+        //FINISHES PROCESSING SELECTION SORT
 
+        //Restores the now sorted array back to the original random array
         System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
-        System.out.print("processing bubble sort... ");
+        //BEGINS PROCESSING BUBBLE SORT
+        System.out.print("PROCESSING BUBBLE SORT... ");
         startTime = System.nanoTime();
         bubbleSort(unsorted);
         endTime = System.nanoTime();
-        int bubbleSortTime = (int)((endTime-startTime)/1000);
+        int bubbleSortTime = (int)((endTime-startTime)/1000); //Gets the system time at both the start and end of sorting, and then calculates difference to get sorting time
         sortTimes[2] = bubbleSortTime;
-        System.out.println("\t\tCOMPLETED: "+bubbleSortTime+" microsecond(s)");
+        System.out.println("COMPLETED");
+        //FINISHES PROCESSING BUBBLE SORT
 
+        //Restores the now sorted array back to the original random array
         System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
-        System.out.print("processing merge sort ... ");
+        //BEGINS PROCESSING MERGE SORT
+        System.out.print("PROCESSING MERGE SORT ... ");
         startTime = System.nanoTime();
         mergeSort(unsorted,length);
         endTime = System.nanoTime();
-        int mergeSortTime = (int)((endTime-startTime)/1000);
+        int mergeSortTime = (int)((endTime-startTime)/1000); //Gets the system time at both the start and end of sorting, and then calculates difference to get sorting time
         sortTimes[3] = mergeSortTime;
-        System.out.println("\t\tCOMPLETED: "+mergeSortTime+" microsecond(s)");
+        System.out.println("COMPLETED");
+        //FINISHES PROCESSING MERGE SORT
 
+        //Restores the now sorted array back to the original random array
         System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
-        System.out.print("processing insertion sort... ");
+        //BEGINS PROCESSING INSERTION SORT
+        System.out.print("PROCESSING INSERTION SORT... ");
         startTime = System.nanoTime();
         insertionSort(unsorted);
         endTime = System.nanoTime();
-        int insertionSortTime = (int)((endTime-startTime)/1000);
+        int insertionSortTime = (int)((endTime-startTime)/1000); //Gets the system time at both the start and end of sorting, and then calculates difference to get sorting time
         sortTimes[4] = insertionSortTime;
-        System.out.println("\tCOMPLETED: "+insertionSortTime+" microsecond(s)");
+        System.out.println("COMPLETED");
+        //FINISHES PROCESSING INSERTION SORT
 
         //Begins ranking the different sorting algorithms based on their times
+        System.out.println("");
+        System.out.println("SORTING ALGORITHMS FROM FASTEST TO SLOWEST:");
+        System.out.println("-------------------------------------------");
         insertionSort(sortTimes);
         boolean packetPrinted = false;
         boolean selectionPrinted = false;
@@ -102,23 +126,23 @@ public class Main {
 
         for(int i=0;i<sortTimes.length;i++){
             if(sortTimes[i]==packetSortTime && packetPrinted==false){
-                System.out.println((i+1)+") Packet Sort: "+sortTimes[i]+" microseconds");
+                System.out.println((i+1)+") PACKET SORT: "+sortTimes[i]+" microseconds");
                 packetPrinted=true;
             }
             else if(sortTimes[i]==selectionSortTime && selectionPrinted==false){
-                System.out.println((i+1)+") Selection Sort: "+sortTimes[i]+" microseconds");
+                System.out.println((i+1)+") SELECTION SORT: "+sortTimes[i]+" microseconds");
                 selectionPrinted=true;
             }
             else if(sortTimes[i]==bubbleSortTime && bubblePrinted==false){
-                System.out.println((i+1)+") Bubble Sort: "+sortTimes[i]+" microseconds");
+                System.out.println((i+1)+") BUBBLE SORT: "+sortTimes[i]+" microseconds");
                 bubblePrinted=true;
             }
             else if(sortTimes[i]==mergeSortTime && mergePrinted==false){
-                System.out.println((i+1)+") Merge Sort: "+sortTimes[i]+" microseconds");
+                System.out.println((i+1)+") MERGE SORT: "+sortTimes[i]+" microseconds");
                 mergePrinted=true;
             }
             else if(sortTimes[i]==insertionSortTime && insertionPrinted==false){
-                System.out.println((i+1)+") Insertion Sort: "+sortTimes[i]+" microseconds");
+                System.out.println((i+1)+") INSERTION SORT: "+sortTimes[i]+" microseconds");
                 insertionPrinted=true;
             }
         }

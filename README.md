@@ -1,4 +1,4 @@
-# packetSort
+# PACKET SORT
 
 This program showcases a custom sorting algorithm I made, called packet sort, and how it fares against other popular sorting algorithms such as merge sort and selection sort.
 

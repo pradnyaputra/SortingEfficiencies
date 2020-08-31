@@ -6,7 +6,7 @@ This program generates a random array with the user-entered value as its length,
 sort this array with my custom algorithm and various other sorting algorithms.
 Then, it will print out the times of each algorithm.
 
-Packet sorting is best used with larger array sizes due to its recursive methods combines with insertion sort(>=500)
+Packet sorting is best used with larger array sizes due to its recursive methods combines with insertion sort(n>=500)
  */
 
 import java.lang.Math;
@@ -147,39 +147,34 @@ public class Main {
 
     //Custom sorting algorithm, a combination of a modified version of merge sort and insertion sort to accurately sort the list.
     static int[] packetSort(int[] arr, int[] sorted) {
-        long mode;
-        int lSize=0;
-        int rSize=0;
-        int split=0;
-        long total=0;
-        double diff=999999999;
-        int lNextFree=0;
-        int rNextFree=0;
+        //declaring and initializing function-wide variables
+        long mode; //the mode of the array
+        int lSize=0; //the size of the left sub array to be created
+        int rSize=0; // the size of the right subarray to be created
+        int split=0; //the value within the array to serve as the sub array splitting point
+        long total=0; //the sum of the arrays values
+        long diff; //the difference between the calculated mode and an array value
+        int lNextFree=0; //the next free index in the left sub array
+        int rNextFree=0; //the next free index in the right sub array
 
-
+        //Checks if smallest subarray already created (recursion to stop)
+        //sends array off for insertion sorting and then returns the returned array
         if(arr.length<=2){
             sorted = packetSortMerge(sorted, arr);
             return sorted;
         }
 
-        int same=0;
-        for(int i=0;i<arr.length;i++){
-            if(arr[0]==arr[i]){
-                same++;
-            }
-        }
-        if(same==arr.length){
-            sorted = packetSortMerge(sorted, arr);
-            return sorted;
-        }
-
+        //summing the arrays values to be used for mode calculation, saved as long format due to possibilities of very large numbers
         for(int i=0;i<arr.length;i++){
             total = total + arr[i];
-
         }
 
+        // initializing the diff variable as a calculation rather than a large number, for good practices
+        // calculates the mode of the array (rounded to floor due to arr.length returning int)
+        diff = Math.abs(arr[0]-arr[1]);
         mode = total/arr.length;
 
+        //finds the nearest array value to the mode, to be used as the splitting value for sub arrays
         for(int i=0;i<arr.length;i++){
             if(Math.abs(mode-arr[i])<diff) {
                 diff = Math.abs(mode - arr[i]);
@@ -187,6 +182,7 @@ public class Main {
             }
         }
 
+        //determines the length of the sub arrays to be created by finding which values will go in which sub array
         for(int i=0;i<arr.length;i++){
             if(arr[i]<split){
                 lSize++;
@@ -196,9 +192,12 @@ public class Main {
             }
         }
 
+        //declaring and initializing the size of the sub arrays
         int[] lArr = new int[lSize];
         int[] rArr = new int[rSize];
 
+        //adding the values to their corresponding sub array based on their relation to the "split" variable
+        //incrementing variables rNextFree and lNextFree to ensure values are added to the correct index of the sub array
         for(int i=0;i<arr.length;i++){
             if(arr[i]<split){
                 lArr[lNextFree]=arr[i];
@@ -210,11 +209,15 @@ public class Main {
             }
         }
 
+        //checking whether a sub array of length 0 was created and stopping the recursion if true, preventing stack overflow
+        //this applies to sub arrays where all of values are the same
+        //sends array off for insertion sorting and then returns the returned array
         if(lArr.length==0 || rArr.length==0){
             sorted = packetSortMerge(sorted, arr);
             return sorted;
         }
 
+        //recursively calls function to continue sorting into smaller packets
         sorted = packetSort(lArr, sorted);
         sorted = packetSort(rArr, sorted);
 
@@ -223,13 +226,14 @@ public class Main {
 
     static int[] packetSortMerge(int[] oldSorted, int[] packet){
         /*
-        take sorted(oldSorted) list
+        take existing sorted(oldSorted) list
         take list to add to sorted(packet)
         sort list to add to sorted(packet)
-        add to sorted list(oldSorted)
+        add packet to sorted list(oldSorted)
         return sorted list(newSorted)
         */
 
+        //beginning of insertion sort
         int key;
         int prev;
         for (int i = 1; i < packet.length; i++) {
@@ -242,8 +246,12 @@ public class Main {
             }
             packet[prev + 1] = key;
         }
+        //end of insertion sort
 
+        //creates new array with initialized length of the previously merged array, and the newly sorted packet sub array
         int[] newSorted = new int[oldSorted.length+packet.length];
+
+        //copy the contents of both the previously merged array and the newly sorted packet sub array into the new array
         System.arraycopy(oldSorted, 0, newSorted, 0, oldSorted.length);
         System.arraycopy(packet, 0, newSorted, oldSorted.length, packet.length);
 
@@ -359,22 +367,29 @@ public class Main {
         }
     }
 
+    //creates a randomized array of user input length. parameter n represents user input
     static int[] createRandomArray(int n){
         int[] newArr = new int[n];
         int max;
         Random rand = new Random();
-        if(n>=499999999){
-            max=999999999;
+
+        //ensures that the values of the array do not exceed the maximum integer value
+        if(n>=1073741823){
+            max=2147483647;
         }
         else{
             max=n*2;
         }
+
+        //fills the array with random values of range from 0 to a defined maximum
         for(int i=0; i<n; i++){
             newArr[i] = rand.nextInt(max);
         }
         return newArr;
     }
 
+    //stores an arrays content as a separate array
+    //ensures the ability to restore the same randomized array after being sorted
     static void restoreRandomArray(int[] arr1, int[] arr2){
         for(int i=0;i<arr1.length;i++){
             arr1[i]=arr2[i];

@@ -124,6 +124,7 @@ public class Main {
         boolean mergePrinted = false;
         boolean insertionPrinted = false;
 
+        //Matching the sorting times with their corresponding method names, and printing them out in order from fastest to slowest
         for(int i=0;i<sortTimes.length;i++){
             if(sortTimes[i]==packetSortTime && packetPrinted==false){
                 System.out.println((i+1)+") PACKET SORT: "+sortTimes[i]+" microseconds");
@@ -148,6 +149,7 @@ public class Main {
         }
     }
 
+    //Custom sorting algorithm, a combination of a modified version of merge sort and insertion sort to accurately sort the list.
     static int[] packetSort(int[] arr, int[] sorted) {
         long mode;
         int lSize=0;
@@ -180,7 +182,6 @@ public class Main {
 
         }
 
-        double length = arr.length;
         mode = total/arr.length;
 
         for(int i=0;i<arr.length;i++){

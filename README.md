@@ -1,4 +1,4 @@
-# sortingEfficiencies
+# packetSort
 
 This program showcases a custom sorting algorithm I made, called packet sort, and how it fares against other popular sorting algorithms such as merge sort and selection sort.
 
@@ -8,4 +8,6 @@ Once all the algorithms have run, the program will display the times of each sor
 Packet sort is a recursive sorting algorithm with a best case efficiency of Ω(nlog(n), and was inspired by binary trees and merge sort.
 This sorting algorithm consists of a modified version of merge sort to create organized packets(subarrays), followed by insertion sort to finely sort the contents of each packet.
 
-A diagram and explanation of how this sorting algorithm works can be found in the repository as "Packet Sort Diagram.jpg"
+A diagram and explanation of how this sorting algorithm works can be found below or in the repository as "Packet Sort Diagram.jpg"
+
+![Diagram of Packet Sort](https://github.com/pradnyaputra/packetSort/blob/master/Packet%20Sort%20Diagram.jpg)

@@ -58,7 +58,6 @@ public class Main {
         //FINISHES PROCESSING PACKET SORT
 
         //Restores the now sorted array back to the original random array
-        System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
         //BEGINS PROCESSING SELECTION SORT
@@ -72,7 +71,6 @@ public class Main {
         //FINISHES PROCESSING SELECTION SORT
 
         //Restores the now sorted array back to the original random array
-        System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
         //BEGINS PROCESSING BUBBLE SORT
@@ -86,7 +84,6 @@ public class Main {
         //FINISHES PROCESSING BUBBLE SORT
 
         //Restores the now sorted array back to the original random array
-        System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
         //BEGINS PROCESSING MERGE SORT
@@ -100,7 +97,6 @@ public class Main {
         //FINISHES PROCESSING MERGE SORT
 
         //Restores the now sorted array back to the original random array
-        System.out.println("");
         restoreRandomArray(unsorted, unsortedSaved);
 
         //BEGINS PROCESSING INSERTION SORT
